@@ -30,14 +30,14 @@ RUN echo "postfix postfix/main_mailer_type string 'Internet site'" >> preseed.tx
 
 
 ADD . /var/www/minera
-#RUN apt-get -y install build-essential pkg-config file libbase58-dev libjansson-dev && cd /var/www/minera/minera-bin/src/libblkmaker/ && ./configure && make || true; \
-#    cd /var/www/minera && sed -e 's/^[[:space:]]*sudo//' -e '/nvm/d; /NVM/d' ./install_minera.sh | /bin/bash && \
-#    apt-get -y purge build-essential redis-server && \
-#    dpkg-query  --show --showformat='${binary:Package}\n' | grep '\-dev$' | xargs apt-get purge -y && \
-#    apt-get -y autoremove --purge && \
-#    apt-get -y install npm nodejs-legacy nodejs redis-tools && apt-mark manual npm nodejs-legacy nodejs redis-tools && \
-#    apt-get -y clean && \
-#    rm -rf /var/lib/apt/lists/*
+RUN apt-get -y install build-essential pkg-config file libbase58-dev libjansson-dev && cd /var/www/minera/minera-bin/src/libblkmaker/ && ./configure && make || true; \
+    cd /var/www/minera && sed -e 's/^[[:space:]]*sudo//' -e '/nvm/d; /NVM/d' ./install_minera.sh | /bin/bash && \
+    apt-get -y purge build-essential redis-server && \
+    dpkg-query  --show --showformat='${binary:Package}\n' | grep '\-dev$' | xargs apt-get purge -y && \
+    apt-get -y autoremove --purge && \
+    apt-get -y install npm nodejs-legacy nodejs redis-tools && apt-mark manual npm nodejs-legacy nodejs redis-tools && \
+    apt-get -y clean && \
+    rm -rf /var/lib/apt/lists/*
 
 
 # VOLUME [ "/sys/fs/cgroup" ]
@@ -45,6 +45,7 @@ ADD . /var/www/minera
 # CMD ["/bin/bash", "-c", "mount -oremount,rw /sys/fs/cgroup; mkdir /sys/fs/cgroup/systemd; mount -oremount,ro /sys/fs/cgroup; exec /lib/systemd/systemd"]
 
 ENV INITSYSTEM on
+
 CMD ["/bin/bash"]
 # TODO: If possible, somehow cleanup above hack, & replace with either:
 #ENTRYPOINT ["/lib/systemd/systemd"]
