@@ -1,8 +1,10 @@
-FROM debian:stretch
+FROM resin/raspberry-pi2-debian:stretch
+
+
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV container docker
-ENV init /lib/systemd/systemd
+# ENV init /lib/systemd/systemd
 ENV LC_ALL C
 
 RUN apt-get update && apt-get -y install procps less systemd ; \
@@ -64,3 +66,6 @@ CMD ["/bin/bash", "-c", "mount -oremount,rw /sys/fs/cgroup; mkdir /sys/fs/cgroup
 # TODO: If possible, somehow cleanup above hack, & replace with either:
 #ENTRYPOINT ["/lib/systemd/systemd"]
 #CMD ["/usr/sbin/init"]
+
+# Enable systemd
+#ENV INITSYSTEM on
